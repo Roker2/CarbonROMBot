@@ -15,9 +15,9 @@ func AllDevices(ctx *ext.Context) error {
 	}
 	msg := "Officially supported devices:"
 	for _, device := range devices {
-		msg += "\n• " + device
+		msg += "\n• <code>" + device + "</code>"
 	}
-	_, err = ctx.EffectiveMessage.Reply(ctx.Bot, msg, nil)
+	_, err = ctx.EffectiveMessage.Reply(ctx.Bot, msg, &gotgbot.SendMessageOpts{ParseMode: "html"})
 	return err
 }
 
@@ -27,7 +27,7 @@ func GetDevice(ctx *ext.Context) error {
 	// ctx.Args()[0] is a command
 	if len(ctx.Args()) == 1 {
 		_, err := ctx.EffectiveMessage.Reply(ctx.Bot, "You didn't write the device codename! Please write the device codename. Example:\n" +
-			"/device mido", nil)
+			"<code>/device mido</code>", &gotgbot.SendMessageOpts{ParseMode: "html"})
 		return err
 	}
 
