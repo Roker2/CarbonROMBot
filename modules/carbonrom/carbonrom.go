@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/mitchellh/mapstructure"
 	"sort"
+	"strings"
 )
 
 type File struct {
@@ -59,11 +60,12 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 	var zips []File
 	for _, file := range files {
 		// Usually device json array consist of .zip's and .md5sum's
-		// if it is not .zip, it is .md5sum
-		//log.Println(file.Filename[len(file.Filename) - 4:])
-		if file.Filename[len(file.Filename) - 4:] == ".zip" {
+		// The .md5sum for the .zip is after the .zip
+		// Go to split it to two arrays
+		if strings.HasSuffix(file.Filename, ".zip") {
 			zips = append(zips, file)
-		} else {
+		}
+		if strings.HasSuffix(file.Filename, ".md5sum") {
 			md5sums = append(md5sums, file)
 		}
 	}
