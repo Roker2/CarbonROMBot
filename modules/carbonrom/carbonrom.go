@@ -4,8 +4,6 @@ import (
 	"carbonrombot/modules/utils"
 	"encoding/json"
 	"github.com/mitchellh/mapstructure"
-	"io/ioutil"
-	"net/http"
 	"sort"
 )
 
@@ -24,15 +22,7 @@ const jsonUrl = "https://carbonrom.org/deltaindex.json"
 
 func getInfo() (map[string]interface{}, error) {
 	// Get the json
-	resp, err := http.Get(jsonUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	//log.Println(resp.Body)
-
-	// Read it
-	plan, err := ioutil.ReadAll(resp.Body)
+	plan, err := utils.DownloadFile(jsonUrl)
 	if err != nil {
 		return nil, err
 	}
