@@ -38,6 +38,15 @@ func (r Rom) RomName() string {
 	return name[:len(name) - 4]
 }
 
+func (r Rom) Md5() (string, error) {
+	// Get MD5 from url
+	file, err := utils.DownloadFile(r.Md5Url)
+	if err != nil {
+		return "", err
+	}
+	return string(file), err
+}
+
 const jsonUrl = "https://carbonrom.org/deltaindex.json"
 
 func getInfo() (map[string]interface{}, error) {
