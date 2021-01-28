@@ -3,8 +3,15 @@ package commands
 import (
 	"carbonrombot/modules/carbonrom"
 	"carbonrombot/modules/utils"
+	"fmt"
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
+)
+
+const (
+	msgSupport = "CarbonROM supports %s."
+	msgNotSupport = "CarbonROM doesn't support %s."
+	getCarbonrom = "https://get.carbonrom.org/device-%s.html"
 )
 
 // alldevices
@@ -43,7 +50,7 @@ func GetDevice(ctx *ext.Context) error {
 			return err
 		}
 		//log.Print(files)
-		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, "CarbonROM supports " + ctx.Args()[1] + ".", &gotgbot.SendMessageOpts{
+		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, fmt.Sprintf(msgSupport, ctx.Args()[1]), &gotgbot.SendMessageOpts{
 			ParseMode: "html",
 			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
 				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{
@@ -51,13 +58,13 @@ func GetDevice(ctx *ext.Context) error {
 						{Text: "Download the latest build", Url: roms[len(roms) - 1].RomUrl()},
 					},
 					{
-						{Text: "All builds", Url: "https://get.carbonrom.org/device-" + ctx.Args()[1] + ".html"},
+						{Text: "All builds", Url: fmt.Sprintf(getCarbonrom, ctx.Args()[1])},
 					},
 				},
 			},
 		})
 	} else {
-		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, "CarbonROM doesn't support " + ctx.Args()[1] + ".", nil)
+		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, fmt.Sprintf(msgNotSupport, ctx.Args()[1]), nil)
 	}
 	return err
 }
