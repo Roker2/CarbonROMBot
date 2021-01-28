@@ -44,7 +44,9 @@ func (r Rom) Md5() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(file), err
+	// .md5sum file has structure "md5sum OUT/ROM.zip"
+	// Second part is unneeded, remove it via splitting
+	return strings.Split(string(file), " ")[0], err
 }
 
 const jsonUrl = "https://carbonrom.org/deltaindex.json"
