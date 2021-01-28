@@ -14,9 +14,13 @@ type File struct {
 }
 
 type Rom struct {
-	RomUrl string
-	Md5Url string
+	RomPath   string
+	Md5Url    string
 	Timestamp int64
+}
+
+func (r Rom) RomUrl() string {
+	return utils.GenerateMirrorBitsUrl(r.RomPath)
 }
 
 const jsonUrl = "https://carbonrom.org/deltaindex.json"
@@ -75,7 +79,7 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 	// It's time to generate Roms!
 	var Roms []Rom
 	for i := 0; i < len(zips); i++ {
-		Roms = append(Roms, Rom{RomUrl: utils.GenerateMirrorBitsUrl(zips[i].Filename),
+		Roms = append(Roms, Rom{RomPath: zips[i].Filename,
 			Md5Url: utils.GenerateMirrorBitsUrl(md5sums[i].Filename),
 			Timestamp: zips[i].Timestamp})
 	}

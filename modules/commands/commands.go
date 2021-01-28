@@ -48,7 +48,7 @@ func GetDevice(ctx *ext.Context) error {
 			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
 				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{
 					{
-						{Text: "Download the latest build", Url: roms[len(roms) - 1].RomUrl},
+						{Text: "Download the latest build", Url: roms[len(roms) - 1].RomUrl()},
 					},
 					{
 						{Text: "All builds", Url: "https://get.carbonrom.org/device-" + ctx.Args()[1] + ".html"},
