@@ -6,6 +6,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"sort"
 	"strings"
+	"time"
 )
 
 type File struct {
@@ -47,6 +48,10 @@ func (r Rom) Md5() (string, error) {
 	// .md5sum file has structure "md5sum OUT/ROM.zip"
 	// Second part is unneeded, remove it via splitting
 	return strings.Split(string(file), " ")[0], err
+}
+
+func (r Rom) GetTimeAsString() string {
+	return time.Unix(r.Timestamp, 0).String()
 }
 
 const jsonUrl = "https://carbonrom.org/deltaindex.json"
