@@ -10,13 +10,13 @@ import (
 
 type File struct {
 	Filename string
-	Timestamp int
+	Timestamp int64
 }
 
 type Rom struct {
 	RomPath   string
 	Md5Url    string
-	Timestamp int
+	Timestamp int64
 }
 
 func (r Rom) RomUrl() string {
