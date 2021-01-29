@@ -50,7 +50,7 @@ func (r Rom) Md5() (string, error) {
 	return strings.Split(string(file), " ")[0], err
 }
 
-func (r Rom) GetTimeAsString() string {
+func (r Rom) GetDateAsString() string {
 	return time.Unix(r.Timestamp, 0).String()
 }
 

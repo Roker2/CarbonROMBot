@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	msgSupport = "CarbonROM supports %s.\nThe latest ROM info:\n<b>ROM name:</b> %s\n<b>MD5:</b> <code>%s</code>"
+	msgSupport = "CarbonROM supports %s.\nThe latest ROM info:\n<b>ROM name:</b> %s\n<b>MD5:</b> <code>%s</code>\n<b>Build date:</b> %s"
 	msgNotSupport = "CarbonROM doesn't support %s."
 	getCarbonrom = "https://get.carbonrom.org/device-%s.html"
 )
@@ -55,7 +55,7 @@ func GetDevice(ctx *ext.Context) error {
 		if err != nil {
 			return err
 		}
-		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, fmt.Sprintf(msgSupport, ctx.Args()[1], latestRom.RomName(), md5), &gotgbot.SendMessageOpts{
+		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, fmt.Sprintf(msgSupport, ctx.Args()[1], latestRom.RomName(), md5, latestRom.GetDateAsString()), &gotgbot.SendMessageOpts{
 			ParseMode: "html",
 			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
 				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{
