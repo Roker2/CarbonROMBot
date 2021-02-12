@@ -21,6 +21,8 @@ func main() {
 	dispatcher := updater.Dispatcher
 
 	// Add handlers
+	dispatcher.AddHandler(handlers.NewCommand("start", commands.Help))
+	dispatcher.AddHandler(handlers.NewCommand("help", commands.Help))
 	dispatcher.AddHandler(handlers.NewCommand("alldevices", commands.AllDevices))
 	dispatcher.AddHandler(handlers.NewCommand("device", commands.GetDevice))
 

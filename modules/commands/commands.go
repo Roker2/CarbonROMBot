@@ -14,6 +14,22 @@ const (
 	getCarbonrom = "https://get.carbonrom.org/device-%s.html"
 )
 
+// start and help
+func Help(ctx *ext.Context) error {
+	commands, err := ctx.Bot.GetMyCommands()
+	if err != nil {
+		return err
+	}
+	msgText := "It's bot for getting info about supporting your device and getting the latest update.\n" +
+		"Available commands:\n"
+	for _, command := range commands {
+		msgText += fmt.Sprintf("/%s - %s\n", command.Command, command.Description)
+	}
+	msgText += "Enjoy!"
+	_, err = ctx.EffectiveMessage.Reply(ctx.Bot, msgText, nil)
+	return err
+}
+
 // alldevices
 func AllDevices(ctx *ext.Context) error {
 	devices, err := carbonrom.GetDevices()
