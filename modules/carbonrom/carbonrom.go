@@ -29,12 +29,7 @@ func (r Rom) RomName() string {
 	name := r.RomPath[2:]
 	// name has structure "device/romname.zip"
 	// Need to remove "device/"
-	// Remove one char while prefix is not "/"
-	for !strings.HasPrefix(name, "/") {
-		name = name[1:]
-	}
-	// Remove "/"
-	name = name[1:]
+	name = name[strings.Index(name, "/") + 1:]
 	// Remove ".zip" and return it
 	return name[:len(name) - 4]
 }
