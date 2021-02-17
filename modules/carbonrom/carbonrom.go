@@ -86,27 +86,22 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 	}
 
 	// It split .zip and .md5sum files to two Files arrays
-	var md5sums []File
 	var zips []File
 	for _, file := range files {
 		// Usually device json array consist of .zip's and .md5sum's
-		// The .md5sum for the .zip is after the .zip
-		// Go to split it to two arrays
+		// We need to get only .zip's
 		if strings.HasSuffix(file.Filename, ".zip") {
 			zips = append(zips, file)
 		}
-		if strings.HasSuffix(file.Filename, ".md5sum") {
-			md5sums = append(md5sums, file)
-		}
 	}
 	//log.Println(zips)
-	//log.Println(md5sums)
 
 	// It's time to generate Roms!
 	var Roms []Rom
 	for i := 0; i < len(zips); i++ {
 		Roms = append(Roms, Rom{RomPath: zips[i].Filename,
-			Md5Url: utils.GenerateMirrorBitsUrl(md5sums[i].Filename),
+			// Usually .md5sum files has name "romname.zip.md5sum"
+			Md5Url: utils.GenerateMirrorBitsUrl(zips[i].Filename + ".md5sum"),
 			Timestamp: zips[i].Timestamp})
 	}
 
