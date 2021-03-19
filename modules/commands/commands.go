@@ -15,8 +15,8 @@ const (
 )
 
 // start and help
-func Help(ctx *ext.Context) error {
-	commands, err := ctx.Bot.GetMyCommands()
+func Help(b *gotgbot.Bot, ctx *ext.Context) error {
+	commands, err := b.GetMyCommands()
 	if err != nil {
 		return err
 	}
@@ -26,12 +26,12 @@ func Help(ctx *ext.Context) error {
 		msgText += fmt.Sprintf("/%s - %s\n", command.Command, command.Description)
 	}
 	msgText += "Enjoy!"
-	_, err = ctx.EffectiveMessage.Reply(ctx.Bot, msgText, nil)
+	_, err = ctx.EffectiveMessage.Reply(b, msgText, nil)
 	return err
 }
 
 // alldevices
-func AllDevices(ctx *ext.Context) error {
+func AllDevices(b *gotgbot.Bot, ctx *ext.Context) error {
 	devices, err := carbonrom.GetDevices()
 	if err != nil {
 		return err
@@ -40,16 +40,16 @@ func AllDevices(ctx *ext.Context) error {
 	for _, device := range devices {
 		msg += "\n• <code>" + device + "</code>"
 	}
-	_, err = ctx.EffectiveMessage.Reply(ctx.Bot, msg, &gotgbot.SendMessageOpts{ParseMode: "html"})
+	_, err = ctx.EffectiveMessage.Reply(b, msg, &gotgbot.SendMessageOpts{ParseMode: "html"})
 	return err
 }
 
 // device
-func GetDevice(ctx *ext.Context) error {
+func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 	// If user didn't write device, bot should to say it
 	// ctx.Args()[0] is a command
 	if len(ctx.Args()) == 1 {
-		_, err := ctx.EffectiveMessage.Reply(ctx.Bot, "You didn't write the device codename! Please write the device codename. Example:\n" +
+		_, err := ctx.EffectiveMessage.Reply(b, "You didn't write the device codename! Please write the device codename. Example:\n" +
 			"<code>/device mido</code>", &gotgbot.SendMessageOpts{ParseMode: "html"})
 		return err
 	}
@@ -71,7 +71,7 @@ func GetDevice(ctx *ext.Context) error {
 		if err != nil {
 			return err
 		}
-		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, fmt.Sprintf(msgSupport, ctx.Args()[1], latestRom.RomName(), md5, latestRom.GetDateAsString()), &gotgbot.SendMessageOpts{
+		_, err = ctx.EffectiveMessage.Reply(b, fmt.Sprintf(msgSupport, ctx.Args()[1], latestRom.RomName(), md5, latestRom.GetDateAsString()), &gotgbot.SendMessageOpts{
 			ParseMode: "html",
 			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
 				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{
@@ -85,7 +85,7 @@ func GetDevice(ctx *ext.Context) error {
 			},
 		})
 	} else {
-		_, err = ctx.EffectiveMessage.Reply(ctx.Bot, fmt.Sprintf(msgNotSupport, ctx.Args()[1]), nil)
+		_, err = ctx.EffectiveMessage.Reply(b, fmt.Sprintf(msgNotSupport, ctx.Args()[1]), nil)
 	}
 	return err
 }

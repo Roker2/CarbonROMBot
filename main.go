@@ -6,18 +6,24 @@ import (
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
+	"net/http"
 	"os"
 	"strconv"
 )
 
 func main() {
 	// Create bot from environment value.
-	b, err := gotgbot.NewBot(os.Getenv("TOKEN"))
+	b, err := gotgbot.NewBot(os.Getenv("TOKEN"), &gotgbot.BotOpts{
+		Client:      http.Client{},
+		GetTimeout:  gotgbot.DefaultGetTimeout,
+		PostTimeout: gotgbot.DefaultPostTimeout,
+	})
 	if err != nil {
 		panic("failed to create new bot: " + err.Error())
 	}
+
 	// Create updater and dispatcher.
-	updater := ext.NewUpdater(b, nil)
+	updater := ext.NewUpdater(nil)
 	dispatcher := updater.Dispatcher
 
 	// Add handlers
@@ -51,7 +57,7 @@ func main() {
 			panic("failed to set webhook, ok is false")
 		}
 	} else {
-		err = updater.StartPolling(b, &ext.PollingOpts{Clean: true})
+		err = updater.StartPolling(b, &ext.PollingOpts{DropPendingUpdates: true})
 		if err != nil {
 			panic("failed to start polling: " + err.Error())
 		}
