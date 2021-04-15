@@ -65,7 +65,7 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 		if err != nil {
 			return err
 		}
-		//log.Print(files)
+		//log.Print(roms)
 		latestRom := roms[len(roms) - 1]
 		md5, err := latestRom.Md5()
 		if err != nil {
