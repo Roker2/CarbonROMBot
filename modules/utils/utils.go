@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-const mirrorbits = "https://mirrorbits.carbonrom.org"
+const mirrorbits = "https://hosting.carbonrom.org"
 
 // Contains tells whether a contains x.
 func ContainsString(a []string, x string) bool {
