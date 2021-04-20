@@ -3,9 +3,10 @@ package utils
 import (
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
-const mirrorbits = "https://mirrorbits.carbonrom.org"
+const fileHostURL = "https://mirrorbits.carbonrom.org"
 
 // Contains tells whether a contains x.
 func ContainsString(a []string, x string) bool {
@@ -18,10 +19,16 @@ func ContainsString(a []string, x string) bool {
 }
 
 // Generate CarbonROM MirrorBits URL
-func GenerateMirrorBitsUrl(file string) string {
+func GenerateFileUrl(file string) string {
 	// File is "./device/filename.extension"
 	// First char of file is ".", remove it
-	return mirrorbits + file[1:]
+	// FILE_HOST_URL is for situation, when you want to fast change link without recompilation
+	customFileHostURL := os.Getenv("FILE_HOST_URL")
+	if customFileHostURL == "" {
+		return fileHostURL + file[1:]
+	} else {
+		return customFileHostURL + file[1:]
+	}
 }
 
 // Download file from url

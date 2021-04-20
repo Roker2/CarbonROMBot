@@ -21,7 +21,7 @@ type Rom struct {
 }
 
 func (r Rom) RomUrl() string {
-	return utils.GenerateMirrorBitsUrl(r.RomPath)
+	return utils.GenerateFileUrl(r.RomPath)
 }
 
 func (r Rom) RomName() string {
@@ -101,7 +101,7 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 	for i := 0; i < len(zips); i++ {
 		Roms = append(Roms, Rom{RomPath: zips[i].Filename,
 			// Usually .md5sum files has name "romname.zip.md5sum"
-			Md5Url: utils.GenerateMirrorBitsUrl(zips[i].Filename + ".md5sum"),
+			Md5Url: utils.GenerateFileUrl(zips[i].Filename + ".md5sum"),
 			Timestamp: zips[i].Timestamp})
 	}
 
