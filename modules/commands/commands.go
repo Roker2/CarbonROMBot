@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	msgSupport = "CarbonROM supports %s.\nThe latest ROM info:\n<b>ROM name:</b> %s\n<b>MD5:</b> <code>%s</code>\n<b>Build date:</b> %s"
+	msgSupport = "CarbonROM supports %s.\nThe latest ROM info:\n<b>ROM name:</b> %s\n<b>ROM version:</b> %s\n<b>MD5:</b> <code>%s</code>\n<b>Build date:</b> %s"
 	msgNotSupport = "CarbonROM doesn't support %s."
 	getCarbonrom = "https://get.carbonrom.org/device-%s.html"
 )
@@ -71,7 +71,12 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 		if err != nil {
 			return err
 		}
-		_, err = ctx.EffectiveMessage.Reply(b, fmt.Sprintf(msgSupport, ctx.Args()[1], latestRom.RomName(), md5, latestRom.GetDateAsString()), &gotgbot.SendMessageOpts{
+		androidVersion, err := latestRom.RomVersion()
+		// I think showing the error in the logs it's okay
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		_, err = ctx.EffectiveMessage.Reply(b, fmt.Sprintf(msgSupport, ctx.Args()[1], latestRom.RomName(), androidVersion, md5, latestRom.GetDateAsString()), &gotgbot.SendMessageOpts{
 			ParseMode: "html",
 			ReplyMarkup: gotgbot.InlineKeyboardMarkup{
 				InlineKeyboard: [][]gotgbot.InlineKeyboardButton{

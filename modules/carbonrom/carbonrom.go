@@ -3,6 +3,7 @@ package carbonrom
 import (
 	"carbonrombot/modules/utils"
 	"encoding/json"
+	"fmt"
 	"github.com/mitchellh/mapstructure"
 	"sort"
 	"strings"
@@ -20,6 +21,13 @@ type Rom struct {
 	Timestamp int64
 }
 
+var versions = map[string]string {
+	"CARBON-CR-6.1": "Android 8.1 (Oreo)",
+	"CARBON-CR-7.0": "Android 9 (Pie)",
+	"CARBON-CR-8.0": "Android 10 (Q)",
+	"CARBON-CR-9.0": "Android 11 (R)",
+}
+
 func (r Rom) RomUrl() string {
 	return utils.GenerateFileUrl(r.RomPath)
 }
@@ -32,6 +40,16 @@ func (r Rom) RomName() string {
 	name = name[strings.Index(name, "/") + 1:]
 	// Remove ".zip" and return it
 	return name[:len(name) - 4]
+}
+
+func (r Rom) RomVersion() (string, error) {
+	for carbonVersion, androidVersion := range versions {
+		if strings.HasPrefix(r.RomName(), carbonVersion) {
+			return androidVersion, nil
+		}
+	}
+	// If version is not in the map, return "nullptr" (easter egg) and error
+	return "nullptr", fmt.Errorf("carbonrom error: I can not find Android version for %s", r.RomName())
 }
 
 func (r Rom) Md5() (string, error) {
