@@ -16,9 +16,13 @@ const (
 
 // start and help
 func Help(b *gotgbot.Bot, ctx *ext.Context) error {
-	commands, err := b.GetMyCommands()
+	opts := gotgbot.GetMyCommandsOpts{Scope: gotgbot.BotCommandScopeDefault{}}
+	commands, err := b.GetMyCommands(&opts)
 	if err != nil {
 		return err
+	}
+	if len(commands) == 0 {
+		return fmt.Errorf("Commands list is empty")
 	}
 	msgText := "It's bot for getting info about supporting your device and getting the latest update.\n" +
 		"Available commands:\n"
