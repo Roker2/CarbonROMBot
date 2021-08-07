@@ -106,7 +106,7 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 	// It split .zip and .md5sum files to two Files arrays
 	var zips []File
 	for _, file := range files {
-		// Usually device json array consist of .zip's and .md5sum's
+		// Usually device json array consists of .zip's and .md5sum's
 		// We need to get only .zip's
 		if strings.HasSuffix(file.Filename, ".zip") {
 			zips = append(zips, file)

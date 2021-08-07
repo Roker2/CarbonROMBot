@@ -42,6 +42,5 @@ func DownloadFile(url string) ([]byte, error) {
 	//log.Println(resp.Body)
 
 	// Read it
-	plan, err := ioutil.ReadAll(resp.Body)
-	return plan, err
+	return ioutil.ReadAll(resp.Body)
 }
