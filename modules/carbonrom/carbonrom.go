@@ -79,7 +79,6 @@ func getInfo() (map[string]interface{}, error) {
 	//  Unmarshal it
 	var devicesInterface map[string]interface{}
 	err = json.Unmarshal(plan, &devicesInterface)
-	//log.Print(devicesInterface)
 	return devicesInterface, err
 }
 
@@ -93,7 +92,6 @@ func getDeviceFiles(device string) ([]File, error) {
 	// Decode device files interface to []Files
 	var files []File
 	err = mapstructure.Decode(filesInterface, &files)
-	//log.Print(files[0])
 	return files, err
 }
 
@@ -112,7 +110,6 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 			zips = append(zips, file)
 		}
 	}
-	//log.Println(zips)
 
 	// It's time to generate Roms!
 	var Roms []Rom
@@ -149,6 +146,5 @@ func GetDevices() ([]string, error) {
 		devices = append(devices, key[2:])
 	}
 	sort.Strings(devices)
-	//log.Println(devices)
 	return devices, nil
 }
