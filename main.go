@@ -31,6 +31,10 @@ func main() {
 	dispatcher.AddHandler(handlers.NewCommand("help", commands.Help))
 	dispatcher.AddHandler(handlers.NewCommand("alldevices", commands.AllDevices))
 	dispatcher.AddHandler(handlers.NewCommand("device", commands.GetDevice))
+	dispatcher.Error = func(b *gotgbot.Bot, ctx *ext.Context, err error) ext.DispatcherAction {
+		fmt.Println(err.Error())
+		return ext.DispatcherActionNoop
+	}
 
 	// Start receiving updates.
 	if os.Getenv("USE_WEBHOOKS") == "yes" {
