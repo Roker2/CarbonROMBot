@@ -1,9 +1,9 @@
 module carbonrombot
 
-// +heroku goVersion go1.18
-go 1.18
+// +heroku goVersion go1.19
+go 1.19
 
 require (
-	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.4
-	github.com/mitchellh/mapstructure v1.4.3
+	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.10
+	github.com/mitchellh/mapstructure v1.5.0
 )

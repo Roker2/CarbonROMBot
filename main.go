@@ -3,20 +3,23 @@ package main
 import (
 	"carbonrombot/modules/commands"
 	"fmt"
-	"github.com/PaulSonOfLars/gotgbot/v2"
-	"github.com/PaulSonOfLars/gotgbot/v2/ext"
-	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/PaulSonOfLars/gotgbot/v2"
+	"github.com/PaulSonOfLars/gotgbot/v2/ext"
+	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
 )
 
 func main() {
 	// Create bot from environment value.
 	b, err := gotgbot.NewBot(os.Getenv("TOKEN"), &gotgbot.BotOpts{
-		Client:      http.Client{},
-		GetTimeout:  gotgbot.DefaultGetTimeout,
-		PostTimeout: gotgbot.DefaultPostTimeout,
+		Client: http.Client{},
+		DefaultRequestOpts: &gotgbot.RequestOpts{
+			Timeout: gotgbot.DefaultTimeout,
+			APIURL:  gotgbot.DefaultAPIURL,
+		},
 	})
 	if err != nil {
 		panic("failed to create new bot: " + err.Error())
@@ -46,15 +49,15 @@ func main() {
 		}
 		herokuUrl := os.Getenv("HEROKU_URL")
 		webhook := ext.WebhookOpts{
-			Listen: "0.0.0.0",
-			Port: port,
-			URLPath: b.Token,
+			Listen:  "0.0.0.0",
+			Port:    port,
+			URLPath: b.GetToken(),
 		}
 		err = updater.StartWebhook(b, webhook)
 		if err != nil {
 			panic("failed to start webhook: " + err.Error())
 		}
-		ok, err := b.SetWebhook(herokuUrl + b.Token, &gotgbot.SetWebhookOpts{MaxConnections: 40})
+		ok, err := b.SetWebhook(herokuUrl+b.GetToken(), &gotgbot.SetWebhookOpts{MaxConnections: 40})
 		if err != nil {
 			panic("failed to start webhook: " + err.Error())
 		}
