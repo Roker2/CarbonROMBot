@@ -4,14 +4,15 @@ import (
 	"carbonrombot/modules/carbonrom"
 	"carbonrombot/modules/utils"
 	"fmt"
+
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 )
 
 const (
-	msgSupport = "CarbonROM supports %s.\nThe latest ROM info:\n<b>ROM name:</b> %s\n<b>ROM version:</b> %s\n<b>MD5:</b> <code>%s</code>\n<b>Build date:</b> %s"
+	msgSupport    = "CarbonROM supports %s.\nThe latest ROM info:\n<b>ROM name:</b> %s\n<b>ROM version:</b> %s\n<b>MD5:</b> <code>%s</code>\n<b>Build date:</b> %s"
 	msgNotSupport = "CarbonROM doesn't support %s."
-	getCarbonrom = "https://get.carbonrom.org/device-%s.html"
+	getCarbonrom  = "https://get.carbonrom.org/device-%s.html"
 )
 
 // start and help
@@ -53,7 +54,7 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 	// If user didn't write device, bot should to say it
 	// ctx.Args()[0] is a command
 	if len(ctx.Args()) == 1 {
-		_, err := ctx.EffectiveMessage.Reply(b, "You didn't write the device codename! Please write the device codename. Example:\n" +
+		_, err := ctx.EffectiveMessage.Reply(b, "You didn't write the device codename! Please write the device codename. Example:\n"+
 			"<code>/device mido</code>", &gotgbot.SendMessageOpts{ParseMode: "html"})
 		return err
 	}
@@ -69,7 +70,7 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 		if err != nil {
 			return err
 		}
-		latestRom := roms[len(roms) - 1]
+		latestRom := roms[len(roms)-1]
 		md5, err := latestRom.Md5()
 		if err != nil {
 			return err
@@ -95,5 +96,14 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 	} else {
 		_, err = ctx.EffectiveMessage.Reply(b, fmt.Sprintf(msgNotSupport, ctx.Args()[1]), nil)
 	}
+	return err
+}
+
+func VersionsList(b *gotgbot.Bot, ctx *ext.Context) error {
+	msg := "ROM versions:"
+	for romVersion, androidVersion := range carbonrom.Versions {
+		msg += "\n" + romVersion + " - " + androidVersion
+	}
+	_, err := ctx.EffectiveMessage.Reply(b, msg, nil)
 	return err
 }
