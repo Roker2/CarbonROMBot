@@ -4,14 +4,15 @@ import (
 	"carbonrombot/modules/utils"
 	"encoding/json"
 	"fmt"
-	"github.com/mitchellh/mapstructure"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 type File struct {
-	Filename string
+	Filename  string
 	Timestamp int64
 }
 
@@ -21,7 +22,7 @@ type Rom struct {
 	Timestamp int64
 }
 
-var versions = map[string]string {
+var Versions = map[string]string{
 	"CARBON-CR-6.1": "Android 8.1 (Oreo)",
 	"CARBON-CR-7.0": "Android 9 (Pie)",
 	"CARBON-CR-8.0": "Android 10 (Q)",
@@ -37,13 +38,13 @@ func (r Rom) RomName() string {
 	name := r.RomPath[2:]
 	// name has structure "device/romname.zip"
 	// Need to remove "device/"
-	name = name[strings.Index(name, "/") + 1:]
+	name = name[strings.Index(name, "/")+1:]
 	// Remove ".zip" and return it
-	return name[:len(name) - 4]
+	return name[:len(name)-4]
 }
 
 func (r Rom) RomVersion() (string, error) {
-	for carbonVersion, androidVersion := range versions {
+	for carbonVersion, androidVersion := range Versions {
 		if strings.HasPrefix(r.RomName(), carbonVersion) {
 			return androidVersion, nil
 		}
@@ -88,7 +89,7 @@ func getDeviceFiles(device string) ([]File, error) {
 		return nil, err
 	}
 	// Get device files as ONE interface
-	filesInterface := devicesInterface["./" + device].(interface{})
+	filesInterface := devicesInterface["./"+device].(interface{})
 	// Decode device files interface to []Files
 	var files []File
 	err = mapstructure.Decode(filesInterface, &files)
@@ -116,7 +117,7 @@ func GetDeviceRoms(device string) ([]Rom, error) {
 	for i := 0; i < len(zips); i++ {
 		Roms = append(Roms, Rom{RomPath: zips[i].Filename,
 			// Usually .md5sum files has name "romname.zip.md5sum"
-			Md5Url: utils.GenerateFileUrl(zips[i].Filename + ".md5sum"),
+			Md5Url:    utils.GenerateFileUrl(zips[i].Filename + ".md5sum"),
 			Timestamp: zips[i].Timestamp})
 	}
 
