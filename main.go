@@ -35,6 +35,7 @@ func main() {
 	dispatcher.AddHandler(handlers.NewCommand("alldevices", commands.AllDevices))
 	dispatcher.AddHandler(handlers.NewCommand("devices", commands.AllDevices))
 	dispatcher.AddHandler(handlers.NewCommand("device", commands.GetDevice))
+	dispatcher.AddHandler(handlers.NewCommand("romversions", commands.VersionsList))
 	dispatcher.Error = func(b *gotgbot.Bot, ctx *ext.Context, err error) ext.DispatcherAction {
 		fmt.Println(err.Error())
 		return ext.DispatcherActionNoop

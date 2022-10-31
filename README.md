@@ -2,11 +2,12 @@
 
 Bot for checking official devices and getting the last build.
 
-| Commands   | Description              |
-| ---------- | ------------------------ |
-| alldevices | Get all official devices |
-| device     | Get info about device    |
-| help       | Get all bot commands     |
+| Commands    | Description              |
+| ----------- | ------------------------ |
+| alldevices  | Get all official devices |
+| device      | Get info about device    |
+| help        | Get all bot commands     |
+| romversions | Get all ROM versions     |
 
 | Flags         | Description                                                                                  | Value                            |
 | ------------- | -------------------------------------------------------------------------------------------- | -------------------------------- |
