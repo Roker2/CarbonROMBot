@@ -102,7 +102,7 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 func VersionsList(b *gotgbot.Bot, ctx *ext.Context) error {
 	msg := "ROM versions:"
 	for romVersion, androidVersion := range carbonrom.Versions {
-		msg += "\n" + romVersion + " - " + androidVersion
+		msg += "\n• " + romVersion + " - " + androidVersion
 	}
 	_, err := ctx.EffectiveMessage.Reply(b, msg, nil)
 	return err
