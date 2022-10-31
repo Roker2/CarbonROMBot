@@ -59,6 +59,12 @@ func GetDevice(b *gotgbot.Bot, ctx *ext.Context) error {
 		return err
 	}
 
+	if len(ctx.Args()) > 2 {
+		_, err := ctx.EffectiveMessage.Reply(b, "You maybe tried to write full device name! Please write the device codename. Example:\n"+
+			"<code>/device mido</code>", &gotgbot.SendMessageOpts{ParseMode: "html"})
+		return err
+	}
+
 	// If user wrote device, go to process it
 	devices, err := carbonrom.GetDevices()
 	if err != nil {
