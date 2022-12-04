@@ -23,10 +23,11 @@ type Rom struct {
 }
 
 var Versions = map[string]string{
-	"CARBON-CR-6.1": "Android 8.1 (Oreo)",
-	"CARBON-CR-7.0": "Android 9 (Pie)",
-	"CARBON-CR-8.0": "Android 10 (Q)",
-	"CARBON-CR-9.0": "Android 11 (R)",
+	"CARBON-CR-6.1":  "Android 8.1 (Oreo)",
+	"CARBON-CR-7.0":  "Android 9 (Pie)",
+	"CARBON-CR-8.0":  "Android 10 (Q)",
+	"CARBON-CR-9.0":  "Android 11 (R)",
+	"CARBON-CR-11.0": "Android 13 (T)",
 }
 
 func (r Rom) RomUrl() string {
