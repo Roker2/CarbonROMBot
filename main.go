@@ -13,8 +13,12 @@ import (
 )
 
 func main() {
+	botToken := os.Getenv("TOKEN")
+	if botToken == "" {
+		panic("TOKEN environment variable is empty")
+	}
 	// Create bot from environment value.
-	b, err := gotgbot.NewBot(os.Getenv("TOKEN"), &gotgbot.BotOpts{
+	b, err := gotgbot.NewBot(botToken, &gotgbot.BotOpts{
 		Client: http.Client{},
 		DefaultRequestOpts: &gotgbot.RequestOpts{
 			Timeout: gotgbot.DefaultTimeout,
@@ -49,21 +53,28 @@ func main() {
 			panic("failed to get port: " + err.Error())
 		}
 		herokuUrl := os.Getenv("HEROKU_URL")
-		webhook := ext.WebhookOpts{
-			Listen:  "0.0.0.0",
-			Port:    port,
-			URLPath: b.GetToken(),
+		if herokuUrl == "" {
+			panic("HEROKU_URL environment variable is empty")
 		}
-		err = updater.StartWebhook(b, webhook)
+		webhookSecret := os.Getenv("WEBHOOK_SECRET")
+		if webhookSecret == "" {
+			panic("WEBHOOK_SECRET environment variable is empty")
+		}
+		webhookOpts := ext.WebhookOpts{
+			ListenAddr:  fmt.Sprintf("0.0.0.0:%d", port),
+			SecretToken: webhookSecret,
+		}
+		err = updater.StartWebhook(b, botToken, webhookOpts)
 		if err != nil {
 			panic("failed to start webhook: " + err.Error())
 		}
-		ok, err := b.SetWebhook(herokuUrl+b.GetToken(), &gotgbot.SetWebhookOpts{MaxConnections: 40})
+		err = updater.SetAllBotWebhooks(herokuUrl, &gotgbot.SetWebhookOpts{
+			MaxConnections:     100,
+			DropPendingUpdates: true,
+			SecretToken:        webhookOpts.SecretToken,
+		})
 		if err != nil {
-			panic("failed to start webhook: " + err.Error())
-		}
-		if !ok {
-			panic("failed to set webhook, ok is false")
+			panic("failed to set webhook: " + err.Error())
 		}
 	} else {
 		err = updater.StartPolling(b, &ext.PollingOpts{DropPendingUpdates: true})
