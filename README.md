@@ -9,10 +9,11 @@ Bot for checking official devices and getting the last build.
 | help        | Get all bot commands     |
 | romversions | Get all ROM versions     |
 
-| Flags         | Description                                                                                  | Value                            |
-| ------------- | -------------------------------------------------------------------------------------------- | -------------------------------- |
-| TOKEN         | Telegram bot token                                                                           | "token"                          |
-| USE_WEBHOOKS  | Enable webhooks mode or not                                                                  | "yes" or "no"                    |
-| HEROKU_URL    | URL to your bot                                                                              | "https://appname.herokuapp.com/" |
-| FILE_HOST_URL | File host link. It is for situation, when you want to fast change link without recompilation | Empty string or "https://url"    |
+| Flags          | Description                                                                                  | Value                            |
+| -------------- | -------------------------------------------------------------------------------------------- | -------------------------------- |
+| TOKEN          | Telegram bot token                                                                           | "token"                          |
+| USE_WEBHOOKS   | Enable webhooks mode or not                                                                  | "yes" or "no"                    |
+| HEROKU_URL     | URL to your bot                                                                              | "https://appname.herokuapp.com/" |
+| FILE_HOST_URL  | File host link. It is for situation, when you want to fast change link without recompilation | Empty string or "https://url"    |
+| WEBHOOK_SECRET | Random string for webhook                                                                    | "any_rAnd0m string"              |
 
