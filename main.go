@@ -3,7 +3,6 @@ package main
 import (
 	"carbonrombot/modules/commands"
 	"fmt"
-	"net/http"
 	"os"
 	"strconv"
 
@@ -18,13 +17,7 @@ func main() {
 		panic("TOKEN environment variable is empty")
 	}
 	// Create bot from environment value.
-	b, err := gotgbot.NewBot(botToken, &gotgbot.BotOpts{
-		Client: http.Client{},
-		DefaultRequestOpts: &gotgbot.RequestOpts{
-			Timeout: gotgbot.DefaultTimeout,
-			APIURL:  gotgbot.DefaultAPIURL,
-		},
-	})
+	b, err := gotgbot.NewBot(botToken, nil)
 	if err != nil {
 		panic("failed to create new bot: " + err.Error())
 	}
