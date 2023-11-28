@@ -4,6 +4,6 @@ module carbonrombot
 go 1.21
 
 require (
-	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.22
+	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.23
 	github.com/mitchellh/mapstructure v1.5.0
 )

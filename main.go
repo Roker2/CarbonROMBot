@@ -3,6 +3,7 @@ package main
 import (
 	"carbonrombot/modules/commands"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -23,8 +24,15 @@ func main() {
 	}
 
 	// Create updater and dispatcher.
-	updater := ext.NewUpdater(nil)
-	dispatcher := updater.Dispatcher
+	dispatcher := ext.NewDispatcher(&ext.DispatcherOpts{
+		// If an error is returned by a handler, log it and continue going.
+		Error: func(b *gotgbot.Bot, ctx *ext.Context, err error) ext.DispatcherAction {
+			log.Println("an error occurred while handling update:", err.Error())
+			return ext.DispatcherActionNoop
+		},
+		MaxRoutines: ext.DefaultMaxRoutines,
+	})
+	updater := ext.NewUpdater(dispatcher, nil)
 
 	// Add handlers
 	dispatcher.AddHandler(handlers.NewCommand("start", commands.Help))
@@ -33,10 +41,6 @@ func main() {
 	dispatcher.AddHandler(handlers.NewCommand("devices", commands.AllDevices))
 	dispatcher.AddHandler(handlers.NewCommand("device", commands.GetDevice))
 	dispatcher.AddHandler(handlers.NewCommand("romversions", commands.VersionsList))
-	dispatcher.Error = func(b *gotgbot.Bot, ctx *ext.Context, err error) ext.DispatcherAction {
-		fmt.Println(err.Error())
-		return ext.DispatcherActionNoop
-	}
 
 	// Start receiving updates.
 	if os.Getenv("USE_WEBHOOKS") == "yes" {
