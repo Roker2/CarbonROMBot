@@ -5,5 +5,5 @@ go 1.21
 
 require (
 	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.23
-	github.com/mitchellh/mapstructure v1.5.0
+	github.com/go-viper/mapstructure/v2 v2.0.0-alpha.1
 )
