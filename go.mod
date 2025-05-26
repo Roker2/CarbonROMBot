@@ -1,7 +1,7 @@
 module carbonrombot
 
-// +heroku goVersion go1.21
-go 1.21
+// +heroku goVersion go1.24
+go 1.24
 
 require (
 	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.32
