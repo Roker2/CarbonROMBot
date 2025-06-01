@@ -58,7 +58,7 @@ func main() {
 			panic("WEBHOOK_SECRET environment variable is empty")
 		}
 		webhookOpts := ext.WebhookOpts{
-			ListenAddr:  fmt.Sprintf("0.0.0.0:%d", port),
+			ListenAddr:  fmt.Sprintf("localhost:%d", port),
 			SecretToken: webhookSecret,
 		}
 		err = updater.StartWebhook(b, botToken, webhookOpts)
