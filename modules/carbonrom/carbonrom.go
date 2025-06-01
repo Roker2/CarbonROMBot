@@ -141,7 +141,7 @@ func GetDevices() ([]string, error) {
 	devices := make([]string, 0, len(devicesInterface))
 	for key := range devicesInterface {
 		// Remove delta files
-		if key == "./delta" {
+		if key == "./delta" || key == "0" {
 			continue
 		}
 		// Remove "./" from key
